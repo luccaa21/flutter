@@ -47,3 +47,5 @@ app.*.map.json
 .dart-tool/
 .dartServer/
 Dart/
+node_modules/
+api_mock_node/node_modules/
