@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mobile/api/usuario_api.dart';
 import 'package:mobile/telas/sobre.dart';
 
 class HomePage extends StatefulWidget {
@@ -64,7 +65,7 @@ class _HomePageState extends State<HomePage> {
             ),
 
             ListTile(
-              leading: const Icon(Icons.supervised_user_circle_rounded),
+              leading: const Icon(Icons.storage),
               title: const Text('Crud SQLite'),
               onTap: () {
                 Navigator.pop(context); // close the drawer
@@ -73,8 +74,29 @@ class _HomePageState extends State<HomePage> {
             ),
 
             ListTile(
+              leading: const Icon(Icons.cloud_sync, color: Colors.indigo),
+              title: const Text('Crud API'),
+              onTap: () {
+                Navigator.pop(context); // close the drawer
+                Navigator.of(context).pushNamed('/usuario_crud_api');
+              },
+            ),
+
+            ListTile(
+              leading: const Icon(Icons.logout, color: Colors.orange),
+              title: const Text('Logout (Desconectar)'),
+              onTap: () async {
+                Navigator.pop(context);
+                await UsuarioApi.deleteToken();
+                if (context.mounted) {
+                  Navigator.of(context).pushReplacementNamed('/');
+                }
+              },
+            ),
+
+            ListTile(
               leading: const Icon(Icons.exit_to_app),
-              title: const Text('Sair'),
+              title: const Text('Sair do App'),
               onTap: () {
                 Navigator.pop(context); // close the drawer
                 SystemNavigator.pop(); // close the app
@@ -98,7 +120,7 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(height: 16),
               ClipRRect(
                 borderRadius: BorderRadius.circular(12),
-                child: Image(
+                child: const Image(
                   width: 150,
                   height: 150,
                   image: AssetImage('assets/images/upf.png'),
@@ -125,7 +147,19 @@ class _HomePageState extends State<HomePage> {
                 },
                 child: const Text('CRUD SQLite'),
               ),
-              const SizedBox(height: 12),                            
+              const SizedBox(height: 12),
+              ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.indigo,
+                  foregroundColor: Colors.white,
+                ),
+                icon: const Icon(Icons.cloud_sync),
+                onPressed: () {
+                  Navigator.of(context).pushNamed('/usuario_crud_api');
+                },
+                label: const Text('CRUD API (Remoto)'),
+              ),
+              const SizedBox(height: 12),
               ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).push(
@@ -141,8 +175,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-
-
-
-

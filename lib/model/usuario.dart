@@ -14,8 +14,15 @@ class Usuario {
   Usuario.init(this.id, this.nome, this.email, this.senha);
 
   factory Usuario.fromMap(Map<String, dynamic> json) {
-    return Usuario.init(json['id'], json['nome'], json['email'], json['senha']);
+    return Usuario.init(
+      json['id'] is int ? json['id'] : int.tryParse(json['id'].toString()),
+      json['nome'],
+      json['email'],
+      json['senha'],
+    );
   }
+
+  factory Usuario.fromJson(Map<String, dynamic> json) => Usuario.fromMap(json);
 
   Map<String, dynamic> toMap() => {
     'id': id,
@@ -23,4 +30,6 @@ class Usuario {
     'email': email,
     'senha': senha,
   };
+
+  Map<String, dynamic> toJson() => toMap();
 }
